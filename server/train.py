@@ -12,6 +12,9 @@ seed = 21
 from keras.datasets import cifar10
 (X_train, y_train), (X_test, y_test) = cifar10.load_data()
 
+print('Train: X=%s, y=%s' % (X_train.shape, y_train.shape))
+print('Test: X=%s, y=%s' % (X_test.shape, y_test.shape))
+
 new_run = False
 
 X_train = X_train.astype('float32')
@@ -23,6 +26,14 @@ y_train = np_utils.to_categorical(y_train)
 y_test = np_utils.to_categorical(y_test)
 class_num = y_test.shape[1]
 #%%
+# Creating Convolutional Base
+"""
+- In the design, convolutional layers are stacked with tiny 3x3 filters, followed by a max pooling layer. 
+- These layers combine to form a block, which can be repeated, with the number of filters in each block growing with network depth, such as 32, 64, 128, and 256 for the model's first four blocks. 
+- The convolutional layers are padded to ensure that the output feature maps have the same height and breadth as the inputs. 
+- We could look at this design for the CIFAR-10 issue and compare it to models with 1, 2, and 3 blocks. Each layer will use the ReLU activation function and He weight initialization, both of which are widely accepted best practices.
+
+"""
 model = Sequential()
 model.add(Conv2D(32, (3, 3), input_shape=X_train.shape[1:], padding='same'))
 model.add(Activation('relu'))
@@ -68,6 +79,7 @@ print(model.summary())
 np.random.seed(seed)
 model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=epochs, batch_size=64)
 #%%
+# Try out the model
 if new_run==True:
     model.save('my_model1.h5')
 else:

@@ -22,3 +22,5 @@ classification = ['airplane', 'automobile', 'bird','cat','deer','dog','frog','ho
 - Chạy lệnh `npm run dev`
 
 🤷 Tạm là thé
+
+Link git: https://github.com/vunguyen4920/Final-ML-2022
